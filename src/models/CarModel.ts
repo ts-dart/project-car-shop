@@ -1,5 +1,12 @@
-import { model as mongooseCreateModel, Schema, Model } from 'mongoose';
+import {
+  model as mongooseCreateModel,
+  Schema,
+  Model,
+} from 'mongoose';
+
 import { ICar } from '../interfaces/ICar';
+import ICarWithId from '../interfaces/ICarWithId';
+// import ICarWithTest from '../interfaces/ICarWithTest';
 
 const carMongooseSchema = new Schema<ICar>({
   model: String,
@@ -19,13 +26,21 @@ export default class CarModel {
     ),
   ) {
     this.create = this.create.bind(this);
+    this.read = this.read.bind(this);
   } 
 
-  public async create(body: ICar) {
+  public async create(body: ICar): Promise<ICarWithId> {
     const {
       _id: id, model, year, color, buyValue, doorsQty, seatsQty,
     } = await this._model.create(body);
     
     return { id, model, year, color, buyValue, doorsQty, seatsQty };
+  }
+
+  public async read()/* : Promise<ICarWithId> */ {
+    const result = await this._model.find();
+    return result.map(({
+      _id: id, model, year, color, buyValue, doorsQty, seatsQty,
+    }) => ({ buyValue, color, doorsQty, id, model, seatsQty, year }));
   }
 }
