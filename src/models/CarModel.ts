@@ -27,6 +27,9 @@ export default class CarModel {
   ) {
     this.create = this.create.bind(this);
     this.read = this.read.bind(this);
+    this.readOne = this.readOne.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   } 
 
   public async create(body: ICar): Promise<ICarWithId> {
@@ -34,13 +37,45 @@ export default class CarModel {
       _id: id, model, year, color, buyValue, doorsQty, seatsQty,
     } = await this._model.create(body);
     
-    return { id, model, year, color, buyValue, doorsQty, seatsQty };
+    return { _id: id, model, year, color, buyValue, doorsQty, seatsQty };
   }
 
-  public async read()/* : Promise<ICarWithId> */ {
+  public async read(): Promise<Array<ICarWithId>> {
     const result = await this._model.find();
     return result.map(({
       _id: id, model, year, color, buyValue, doorsQty, seatsQty,
-    }) => ({ buyValue, color, doorsQty, id, model, seatsQty, year }));
+    }) => ({ buyValue, color, doorsQty, _id: id, model, seatsQty, year }));
+  }
+
+  public async readOne(id: string | null): Promise<ICarWithId | null> {
+    const result = await this._model.findOne({ _id: id });
+    return !result ? null : {
+      buyValue: result.buyValue,
+      color: result.color,
+      doorsQty: result.doorsQty,
+      _id: result._id,
+      model: result.model,
+      seatsQty: result.seatsQty,
+      year: result.year, 
+    };
+  }
+
+  public async update(id: string | null, body: ICarWithId)/* : Promise<ICarWithId | null> */ {
+    const result = await this._model.updateOne({ _id: id }, { 
+      buyValue: body.buyValue,
+      color: body.color,
+      doorsQty: body.doorsQty,
+      _id: body._id,
+      model: body.model,
+      seatsQty: body.seatsQty,
+      year: body.year,
+    });
+
+    return result;
+  }
+
+  public async delete(id: string | null)/* : Promise<ICarWithId | null> */ {
+    const result = await this._model.deleteOne({ _id: id });
+    return result;
   }
 }

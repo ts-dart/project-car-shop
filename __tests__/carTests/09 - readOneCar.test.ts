@@ -36,6 +36,7 @@ describe('09 - Crie uma rota para o endpoint /cars/id onde seja possível listar
     };
     const result = await request(app)
       .get('/cars/999');
+
     expect(result.body).toEqual(messageError);
     expect(result.statusCode).toEqual(400);
   });
