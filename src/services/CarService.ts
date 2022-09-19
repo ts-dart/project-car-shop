@@ -33,9 +33,7 @@ export default class CarService {
   }
 
   public async readOne(id: string): Promise<ICarWithId> {
-    if (id.length < 24) {
-      throw new Error(this._minLengthIdMsgErr);
-    }
+    if (id.length < 24) throw new Error(this._minLengthIdMsgErr);
 
     const result = await this._model.readOne(id);
     if (!result) throw new Error(this._objectNotFoundMsgErr);
@@ -45,10 +43,7 @@ export default class CarService {
 
   public async update(id: string, body: ICarWithId): Promise<unknown> {
     if (Object.keys(body).length === 0) throw new Error('Body is required');
-
-    if (id.length < 24) {
-      throw new Error(this._minLengthIdMsgErr);
-    }
+    if (id.length < 24) throw new Error(this._minLengthIdMsgErr);
 
     const result = await this._model.update(id, body);
     if (!result.modifiedCount) throw new Error(this._objectNotFoundMsgErr);
@@ -57,9 +52,7 @@ export default class CarService {
   }
 
   public async delete(id: string): Promise<unknown> {
-    if (id.length < 24) {
-      throw new Error(this._minLengthIdMsgErr);
-    }
+    if (id.length < 24) throw new Error(this._minLengthIdMsgErr);
 
     const result = await this._model.delete(id);
     if (!result.deletedCount) throw new Error(this._objectNotFoundMsgErr);
