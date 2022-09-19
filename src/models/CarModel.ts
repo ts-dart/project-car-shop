@@ -60,7 +60,7 @@ export default class CarModel {
     };
   }
 
-  public async update(id: string | null, body: ICarWithId)/* : Promise<ICarWithId | null> */ {
+  public async update(id: string | null, body: ICarWithId)/* : Promise<ICarWithId | null>  */ {
     const result = await this._model.updateOne({ _id: id }, { 
       buyValue: body.buyValue,
       color: body.color,
@@ -74,7 +74,7 @@ export default class CarModel {
     return result;
   }
 
-  public async delete(id: string | null)/* : Promise<ICarWithId | null> */ {
+  public async delete(id: string | null) /* : Promise<ICarWithId | null>  */{
     const result = await this._model.deleteOne({ _id: id });
     return result;
   }
