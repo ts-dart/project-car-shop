@@ -62,6 +62,8 @@ describe('carController/read', () => {
 
 describe('carController/readOne', () => {
   const res: any = {};
+  const req: any = { params: { id: '4edd40c86762e0fb12000003' }, body: {} };
+
   before(async () => {
     res.status = sinon.stub().returns(res);
     res.send = sinon.stub().returns(res);
@@ -79,7 +81,7 @@ describe('carController/readOne', () => {
     }
 
     const controller = new CarController(fakeCarService as any);
-    await controller.readOne({} as Request, res as Response);
+    await controller.readOne(req as Request, res as Response);
     expect(res.status.getCall(0).args[0]).to.equal(200);
     expect(res.send.getCall(0).args[0]).to.deep.equals(carMock);
   });
@@ -87,6 +89,8 @@ describe('carController/readOne', () => {
 
 describe('carController/update', () => {
   const res: any = {};
+  const req: any = { params: { id: '4edd40c86762e0fb12000003' }, body: {} };
+
   before(async () => {
     res.status = sinon.stub().returns(res);
     res.send = sinon.stub().returns(res);
@@ -104,7 +108,7 @@ describe('carController/update', () => {
     }
 
     const controller = new CarController(fakeCarService as any);
-    await controller.update({} as Request, res as Response);
+    await controller.update(req as Request, res as Response);
     expect(res.status.getCall(0).args[0]).to.equal(200);
     expect(res.send.getCall(0).args[0]).to.deep.equals(carMock);
   });
@@ -112,6 +116,8 @@ describe('carController/update', () => {
 
 describe('carController/delete', () => {
   const res: any = {};
+  const req: any = { params: { id: '4edd40c86762e0fb12000003' }, body: {} };
+
   before(async () => {
     res.status = sinon.stub().returns(res);
     res.send = sinon.stub().returns(res);
@@ -129,8 +135,8 @@ describe('carController/delete', () => {
     }
 
     const controller = new CarController(fakeCarService as any);
-    await controller.delete({} as Request, res as Response);
-    expect(res.status.getCall(0).args[0]).to.equal(200);
+    await controller.delete(req as Request, res as Response);
+    expect(res.status.getCall(0).args[0]).to.equal(204);
     expect(typeof res.send.getCall(0).args[0]).to.deep.equals('object');
   });
 });
